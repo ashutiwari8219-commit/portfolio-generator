@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ name }}{% if role %} — {{ role }}{% endif %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBFBFA;
+    --ink:#131417;
+    --muted:#6C6F78;
+    --accent:#1B2A4A;
+    --rule:#E5E4E0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);}
+  .wrap{max-width:720px;margin:0 auto;padding:96px 28px 60px;}
+
+  .kicker{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 22px;
+  }
+  h1{
+    font-size:clamp(38px,7vw,64px);line-height:1.02;font-weight:800;
+    letter-spacing:-.02em;margin:0 0 14px;
+  }
+  .role{font-size:18px;color:var(--muted);margin:0 0 30px;font-weight:500;}
+  .bio{font-size:17px;line-height:1.75;color:#3A3C42;max-width:56ch;margin:0 0 50px;}
+
+  .skills-line{
+    display:flex;flex-wrap:wrap;gap:8px 0;font-size:14px;color:var(--muted);
+    margin-bottom:70px;
+  }
+  .skills-line span:not(:last-child)::after{content:"·";margin:0 10px;color:var(--rule);}
+
+  h2.label{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);font-weight:500;
+    margin:0 0 28px;padding-top:36px;border-top:1px solid var(--rule);
+  }
+
+  .projects{display:flex;flex-direction:column;}
+  .project{padding:26px 0;border-bottom:1px solid var(--rule);}
+  .project:first-child{padding-top:0;}
+  .project-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;}
+  .project-name{font-size:19px;font-weight:600;margin:0;letter-spacing:-.01em;}
+  .project-name a{color:var(--ink);text-decoration:none;}
+  .project-name a:hover{color:var(--accent);}
+  .project-link{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);
+    text-decoration:none;white-space:nowrap;
+  }
+  .project-link:hover{text-decoration:underline;}
+  .project-desc{font-size:15px;color:#4B4E56;line-height:1.65;margin:8px 0 0;max-width:58ch;}
+  .project-tags{margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);}
+  .project-tags span:not(:last-child)::after{content:", ";}
+
+  .empty{color:var(--muted);font-size:14px;}
+
+  .contact{
+    display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin-top:0;
+  }
+  .contact a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);}
+  .contact a:hover{border-color:var(--accent);color:var(--accent);}
+
+  .credit{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--rule);margin-top:64px;}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  @media (max-width:560px){ .wrap{padding:60px 20px 40px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker">Portfolio · {{ year }}</p>
+  <h1>{{ name }}</h1>
+  {% if role %}<p class="role">{{ role }}</p>{% endif %}
+  {% if bio %}<p class="bio">{{ bio }}</p>{% endif %}
+
+  {% if skills %}
+  <div class="skills-line">
+    {% for skill in skills %}<span>{{ skill }}</span>{% endfor %}
+  </div>
+  {% endif %}
+
+  <h2 class="label">Selected work</h2>
+  {% if projects %}
+  <div class="projects">
+    {% for p in projects %}
+    <div class="project">
+      <div class="project-head">
+        <h3 class="project-name">
+          {% if p.link %}<a href="{{ p.link }}" target="_blank" rel="noopener">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}
+        </h3>
+        {% if p.link %}<a class="project-link" href="{{ p.link }}" target="_blank" rel="noopener">View ↗</a>{% endif %}
+      </div>
+      {% if p.description %}<p class="project-desc">{{ p.description }}</p>{% endif %}
+      {% if p.tags %}<p class="project-tags">{% for t in p.tags %}<span>{{ t }}</span>{% endfor %}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty">No projects added yet.</p>
+  {% endif %}
+
+  <h2 class="label">Contact</h2>
+  <div class="contact">
+    {% if email %}<a href="mailto:{{ email }}">{{ email }}</a>{% endif %}
+    {% if github %}<a href="{{ github }}" target="_blank" rel="noopener">GitHub</a>{% endif %}
+    {% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
+    {% if website %}<a href="{{ website }}" target="_blank" rel="noopener">Website</a>{% endif %}
+  </div>
+
+  <p class="credit">Made with AI Portfolio Generator</p>
+</div>
+</body>
+</html>

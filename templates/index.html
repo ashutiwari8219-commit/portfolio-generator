@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Portfolio Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">◲</span>
+      <span class="brand-text">AI PORTFOLIO GENERATOR</span>
+    </div>
+    <div class="header-meta">
+      <span id="rev-badge" class="rev-badge">REV 01</span>
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <!-- LEFT: FORM COLUMN -->
+    <section class="form-col" aria-label="Portfolio details form">
+
+      <form id="builder-form" novalidate>
+
+        <fieldset class="sheet" data-sheet="01">
+          <legend><span class="sheet-num">01</span> Identity</legend>
+
+          <label class="field">
+            <span>Full name</span>
+            <input type="text" id="f-name" name="name" placeholder="Ada Lovelace" autocomplete="name" required>
+          </label>
+
+          <label class="field">
+            <span>Role / title</span>
+            <input type="text" id="f-role" name="role" placeholder="Software Engineer">
+          </label>
+
+          <label class="field">
+            <span>Short bio</span>
+            <textarea id="f-bio" name="bio" rows="4" placeholder="A sentence or two about what you do and what you care about."></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset class="sheet" data-sheet="02">
+          <legend><span class="sheet-num">02</span> Contact</legend>
+
+          <label class="field">
+            <span>Email</span>
+            <input type="email" id="f-email" name="email" placeholder="you@example.com">
+          </label>
+          <label class="field">
+            <span>GitHub URL</span>
+            <input type="url" id="f-github" name="github" placeholder="https://github.com/you">
+          </label>
+          <label class="field">
+            <span>LinkedIn URL</span>
+            <input type="url" id="f-linkedin" name="linkedin" placeholder="https://linkedin.com/in/you">
+          </label>
+          <label class="field">
+            <span>Website</span>
+            <input type="url" id="f-website" name="website" placeholder="https://yoursite.com">
+          </label>
+        </fieldset>
+
+        <fieldset class="sheet" data-sheet="03">
+          <legend><span class="sheet-num">03</span> Skills</legend>
+          <label class="field">
+            <span>Comma-separated</span>
+            <input type="text" id="f-skills" name="skills" placeholder="Python, React, System Design">
+          </label>
+          <div id="skills-preview" class="chip-row" aria-hidden="true"></div>
+        </fieldset>
+
+        <fieldset class="sheet" data-sheet="04">
+          <legend><span class="sheet-num">04</span> Projects</legend>
+          <div id="project-list" class="project-list"></div>
+          <button type="button" id="add-project" class="btn-ghost">+ Add project</button>
+        </fieldset>
+
+        <fieldset class="sheet" data-sheet="05">
+          <legend><span class="sheet-num">05</span> Theme</legend>
+          <div class="theme-picker">
+            <label class="theme-option">
+              <input type="radio" name="theme" value="blueprint" checked>
+              <span class="theme-swatch swatch-blueprint" aria-hidden="true"></span>
+              <span>Blueprint</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="theme" value="mono">
+              <span class="theme-swatch swatch-mono" aria-hidden="true"></span>
+              <span>Minimal</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="button" id="preview-btn" class="btn-secondary">Open preview ↗</button>
+          <button type="submit" id="generate-btn" class="btn-primary">Generate &amp; download ▸</button>
+        </div>
+        <p id="status-msg" class="status-msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- RIGHT: LIVE BLUEPRINT PREVIEW -->
+    <aside class="preview-col" aria-label="Live preview">
+      <div class="preview-frame">
+        <div class="preview-topbar">
+          <span>DRAFT PREVIEW</span>
+          <span id="preview-theme-label">BLUEPRINT</span>
+        </div>
+        <div class="preview-surface" id="preview-surface">
+          <p class="pv-eyebrow">Sheet 01 — Identity</p>
+          <h1 id="pv-name">Your Name</h1>
+          <p id="pv-role" class="pv-role"></p>
+          <p id="pv-bio" class="pv-bio"></p>
+
+          <p class="pv-label" id="pv-skills-label" hidden>Sheet 02 — Skills</p>
+          <div id="pv-skills" class="pv-skills"></div>
+
+          <p class="pv-label">Sheet 03 — Projects</p>
+          <div id="pv-projects" class="pv-projects">
+            <p class="pv-empty">Projects you add will draft in here.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+</div>
+
+<template id="project-row-template">
+  <div class="project-row">
+    <div class="project-row-head">
+      <span class="project-row-num"></span>
+      <button type="button" class="remove-project" aria-label="Remove project">✕</button>
+    </div>
+    <input type="text" class="p-name" placeholder="Project name">
+    <textarea class="p-desc" rows="2" placeholder="One or two lines on what it does"></textarea>
+    <div class="project-row-grid">
+      <input type="url" class="p-link" placeholder="Link (optional)">
+      <input type="text" class="p-tags" placeholder="Tags, comma separated">
+    </div>
+  </div>
+</template>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ name }}{% if role %} — {{ role }}{% endif %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1B2D;
+    --panel:#132540;
+    --line:#3E5872;
+    --line-soft:#233A56;
+    --chalk:#E7F1FB;
+    --slate:#8CA3BC;
+    --signal:#FFB238;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px) 0 0/40px 40px,
+      var(--ink);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{animation:rise .6s ease both;}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+  a{color:var(--signal);}
+  .wrap{max-width:880px;margin:0 auto;padding:64px 28px 40px;}
+
+  .stamp-row{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;
+    color:var(--slate);border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:48px;
+    text-transform:uppercase;
+  }
+  .stamp-row .stamp{border:1px solid var(--line);padding:4px 10px;color:var(--chalk);}
+
+  header.hero{margin-bottom:64px;}
+  .eyebrow{
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.18em;
+    color:var(--signal);text-transform:uppercase;margin:0 0 14px;
+  }
+  h1{
+    font-family:'Space Mono',monospace;font-weight:700;
+    font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0 0 10px;
+    color:var(--chalk);
+  }
+  .role{font-size:19px;color:var(--slate);margin:0 0 26px;}
+  .bio{
+    font-size:16px;line-height:1.7;color:#C9D8E8;max-width:60ch;
+    border-left:2px solid var(--line);padding-left:18px;
+  }
+
+  .section-label{
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;
+    color:var(--slate);text-transform:uppercase;margin:0 0 20px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .section-label::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  .skills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:64px;}
+  .skill{
+    font-family:'Space Mono',monospace;font-size:13px;color:var(--chalk);
+    border:1px dashed var(--line);padding:7px 12px;border-radius:2px;
+  }
+
+  .projects{display:flex;flex-direction:column;gap:0;margin-bottom:64px;}
+  .project{
+    display:grid;grid-template-columns:52px 1fr;gap:20px;
+    padding:26px 0;border-top:1px solid var(--line-soft);
+  }
+  .project:last-child{border-bottom:1px solid var(--line-soft);}
+  .project-num{font-family:'Space Mono',monospace;color:var(--slate);font-size:13px;padding-top:2px;}
+  .project-name{margin:0 0 8px;font-size:20px;font-weight:600;color:var(--chalk);}
+  .project-name a{color:inherit;text-decoration:none;}
+  .project-name a:hover{color:var(--signal);}
+  .project-desc{margin:0 0 12px;color:#B9CBE0;line-height:1.6;font-size:15px;}
+  .project-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .project-tags span{
+    font-family:'Space Mono',monospace;font-size:11px;color:var(--slate);
+    border:1px solid var(--line-soft);padding:3px 8px;
+  }
+  .project-link{
+    font-family:'Space Mono',monospace;font-size:12px;text-decoration:none;
+    border-bottom:1px solid var(--signal);padding-bottom:1px;
+  }
+
+  .empty{color:var(--slate);font-size:14px;font-style:italic;}
+
+  footer.titleblock{
+    border:1px solid var(--line);margin-top:20px;
+  }
+  .tb-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));}
+  .tb-cell{
+    padding:16px 18px;border-right:1px solid var(--line);border-top:1px solid var(--line);
+  }
+  .tb-cell:first-child{border-top:none;}
+  .tb-row:first-child .tb-cell{border-top:none;}
+  .tb-cell:last-child{border-right:none;}
+  .tb-label{
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;
+    color:var(--slate);text-transform:uppercase;margin-bottom:6px;display:block;
+  }
+  .tb-value{font-size:14px;color:var(--chalk);word-break:break-word;}
+  .tb-value a{color:var(--chalk);text-decoration:none;}
+  .tb-value a:hover{color:var(--signal);}
+
+  .credit{
+    text-align:center;font-family:'Space Mono',monospace;font-size:11px;
+    color:var(--line);margin:36px 0 0;letter-spacing:.06em;
+  }
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+
+  @media (max-width:560px){
+    .wrap{padding:40px 18px 30px;}
+    .project{grid-template-columns:34px 1fr;gap:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="stamp-row">
+    <span>Portfolio / Drafted {{ year }}</span>
+    <span class="stamp">Rev. 01</span>
+  </div>
+
+  <header class="hero reveal">
+    <p class="eyebrow">Sheet 01 — Identity</p>
+    <h1>{{ name }}</h1>
+    {% if role %}<p class="role">{{ role }}</p>{% endif %}
+    {% if bio %}<p class="bio">{{ bio }}</p>{% endif %}
+  </header>
+
+  {% if skills %}
+  <section class="reveal">
+    <p class="section-label">Sheet 02 — Skills</p>
+    <div class="skills">
+      {% for skill in skills %}<span class="skill">{{ skill }}</span>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="reveal">
+    <p class="section-label">Sheet 03 — Projects</p>
+    {% if projects %}
+    <div class="projects">
+      {% for p in projects %}
+      <div class="project">
+        <div class="project-num">{{ "%02d"|format(loop.index) }}</div>
+        <div>
+          <h3 class="project-name">
+            {% if p.link %}<a href="{{ p.link }}" target="_blank" rel="noopener">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}
+          </h3>
+          {% if p.description %}<p class="project-desc">{{ p.description }}</p>{% endif %}
+          {% if p.tags %}
+          <div class="project-tags">{% for t in p.tags %}<span>{{ t }}</span>{% endfor %}</div>
+          {% endif %}
+          {% if p.link %}<div style="margin-top:10px;"><a class="project-link" href="{{ p.link }}" target="_blank" rel="noopener">View project ↗</a></div>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">No projects added yet.</p>
+    {% endif %}
+  </section>
+
+  <footer class="titleblock reveal">
+    <div class="tb-row">
+      <div class="tb-cell">
+        <span class="tb-label">Email</span>
+        <span class="tb-value">{% if email %}<a href="mailto:{{ email }}">{{ email }}</a>{% else %}—{% endif %}</span>
+      </div>
+      <div class="tb-cell">
+        <span class="tb-label">GitHub</span>
+        <span class="tb-value">{% if github %}<a href="{{ github }}" target="_blank" rel="noopener">{{ github }}</a>{% else %}—{% endif %}</span>
+      </div>
+      <div class="tb-cell">
+        <span class="tb-label">LinkedIn</span>
+        <span class="tb-value">{% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener">{{ linkedin }}</a>{% else %}—{% endif %}</span>
+      </div>
+      <div class="tb-cell">
+        <span class="tb-label">Website</span>
+        <span class="tb-value">{% if website %}<a href="{{ website }}" target="_blank" rel="noopener">{{ website }}</a>{% else %}—{% endif %}</span>
+      </div>
+    </div>
+  </footer>
+
+  <p class="credit">Drafted with AI Portfolio Generator · {{ year }}</p>
+</div>
+</body>
+</html>
